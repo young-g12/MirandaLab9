@@ -12,9 +12,25 @@ public:
 	void MoveRight();
 	int getBoundX(){return boundx;}
 	int getBoundY(){return boundy;}
-	int getX(){return x;}
-	int getY(){return y;}
-	void removeLife(){lives--;}
+	int getX() { return x; }
+	int getY() { return y; }
+
+	int getLives() { return lives; }
+
+	void addKill()
+	{
+		score++;
+	}
+
+	int getScore()
+	{
+		return score;
+	}
+
+	void removeLife()
+	{
+		lives--;
+	}
 private:
 	int x;
 	int y;
