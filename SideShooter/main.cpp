@@ -1,9 +1,13 @@
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_primitives.h>
+#include <allegro5\allegro_font.h>
+#include <iostream>
 #include <allegro5\allegro_image.h>
 #include "player.h"
 #include "ghost.h"
 #include "Arrow.h"
+
+using namespace std;
 
 int main(void)
 {
@@ -38,11 +42,13 @@ int main(void)
 
 	al_install_keyboard();
 	al_init_image_addon();
+	al_init_font_addon();
 
 	//object variables
 	player myPlayer(HEIGHT);
 	Arrow Arrows[NUM_ArrowS];
 	ghost ghosts[NUM_ghostS];
+	ALLEGRO_FONT* font = al_create_builtin_font();
 
 	event_queue = al_create_event_queue();
 	timer = al_create_timer(1.0 / FPS);
@@ -146,6 +152,25 @@ int main(void)
 			redraw = false; 
 
 			myPlayer.DrawPlayer();
+			al_draw_textf(
+				font,
+				al_map_rgb(255, 255, 255),
+				10,
+				10,
+				0,
+				"Lives: %d",
+				myPlayer.getLives()
+			);
+
+			al_draw_textf(
+				font,
+				al_map_rgb(255, 255, 255),
+				10,
+				30,
+				0,
+				"Ghosts Killed: %d",
+				myPlayer.getScore()
+			);
 			for(int i=0;i<NUM_ArrowS;i++)
 				Arrows[i].DrawArrow();
 			for(int i=0;i<NUM_ghostS;i++)
@@ -155,9 +180,17 @@ int main(void)
 			al_clear_to_color(al_map_rgb(0,0,0));
 		}
 	}
+	al_rest(5.0);
 
+	cout << "Game Over!" << endl;
+	cout << "Ghosts Killed: "
+		<< myPlayer.getScore() << endl;
+
+	cout << "Lives Remaining: "
+		<< myPlayer.getLives() << endl;
 	al_destroy_event_queue(event_queue);
 	al_destroy_timer(timer);
+	al_destroy_font(font);
 	al_destroy_display(display);						//destroy our display object
 	system("Pause");
 	return 0;
