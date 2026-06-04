@@ -77,10 +77,14 @@ int main(void)
 				ghosts[i].Startghost(WIDTH,HEIGHT);
 			for(int i=0;i<NUM_ghostS;i++)
 				ghosts[i].Updateghost();
-			for(int i=0;i<NUM_ArrowS;i++)
-				Arrows[i].CollideArrow(ghosts, NUM_ghostS);
+			for (int i = 0;i < NUM_ArrowS;i++)
+				Arrows[i].CollideArrow(ghosts, NUM_ghostS, myPlayer);
 			for(int i=0;i<NUM_ghostS;i++)
 				ghosts[i].Collideghost(myPlayer);
+				if (myPlayer.getLives() <= 0)
+				{
+					done = true;
+				}
 		}
 		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 		{
